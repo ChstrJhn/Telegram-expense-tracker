@@ -36,11 +36,47 @@ An AI-powered Telegram bot that logs your daily expenses to Google Sheets using 
 - Google Sheets OAuth2 credentials
 
 ### Installation
-1. From the workflows folder, import `goodboi-expense-tracker-tg.json` into your n8n instance
-2. Add your credentials (Telegram Bot, Google Gemini API key, Google Sheets OAuth2)
-3. Create a Google Sheet with 2 tabs. First an `Expense` tab with  columns: Date, Category, Item, Quantity, Total Price, Payment Method, Raw Input, plus another `Pending` tab with columns: chat_id, resume_url, timestamp
-4. Publish the workflow
-5. Send your bot a message to test
+
+1. From the workflows folder, import `goodboi-expense-tracker-tg.json` into your n8n instance.
+
+2. Create a Google Sheet with two tabs:
+   - **Expenses** — columns: `Date`, `Category`, `Item`, `Quantity`, `Total Price`, `Payment Method`, `Raw Input`
+   - **Pending** — columns: `chat_id`, `resume_url`, `timestamp`
+
+3. Add your credentials to n8n: Telegram Bot, Google Gemini API, Google Sheets OAuth2.
+
+4. Wire up the environment variables (see below), then publish the workflow.
+
+5. Send your bot a message to test.
+
+### Environment variables
+
+The workflow uses `{{ $env.X }}` in place of all secrets and IDs. n8n only resolves these in fields that accept expressions — everything else needs a manual pass.
+
+**Resolved at runtime** (just set the env var on your n8n instance):
+
+- `TELEGRAM_BOT_TOKEN` — embedded in Telegram API URLs
+- `GEMINI_API_KEY` — sent as the `x-goog-api-key` header to Gemini
+
+**Not evaluated by n8n** — these fields are treated as literal identifiers:
+
+- `credentials.id` on every credentialed node
+- `webhookId` on Telegram and Wait nodes
+- Resource-locator `value` fields (Google Sheets `documentId` and `sheetName`)
+
+Pick one of:
+
+- **Option A — Fix in the UI after import.** Open each node and reselect the credential, sheet, and tab from the dropdowns. Placeholders make it obvious what's missing.
+- **Option B — Template before import.** Run `envsubst` (or similar) over the JSON to render real values in, then import. Cleaner for repeatable deploys.
+
+**Full list:**
+
+| Purpose | Variables |
+|---|---|
+| Secrets | `TELEGRAM_BOT_TOKEN`, `GEMINI_API_KEY` |
+| Google Sheets | `GOOGLE_SHEET_ID`, `GOOGLE_SHEET_GID_PENDING`, `GOOGLE_SHEET_GID_EXPENSES` |
+| Credential IDs | `TELEGRAM_CREDENTIALS_ID`, `GEMINI_CREDENTIALS_ID`, `GOOGLE_SHEETS_CREDENTIALS_ID` |
+| Webhook IDs | `TELEGRAM_INPUT_WEBHOOK_ID`, `SEND_CONFIRMATION_WEBHOOK_ID`, `WAIT_FOR_REPLY_WEBHOOK_ID`, `SUCCESS_REPLY_WEBHOOK_ID`, `DISCARD_REPLY_WEBHOOK_ID` (reused by Correction Reply), `NOT_EXPENSE_WEBHOOK_ID`, `PARSE_ERROR_WEBHOOK_ID` |
 
 ## Example
 
