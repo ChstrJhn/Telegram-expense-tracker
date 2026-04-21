@@ -47,12 +47,13 @@ An AI-powered Telegram bot that logs your daily expenses to Google Sheets using 
 **Input (text):** `"Nasi lemak RM8 cash, kopi RM3 TnG"`
 
 **Bot reply:**
-📋 Here's what I captured:
 
-🍽️ Nasi lemak x1 — RM8.00 · Cash · 21/04/2026
-☕ Kopi x1 — RM3.00 · Touch n' Go · 21/04/2026
+`📋 Here's what I captured:`
 
-Reply ✅ to save all, ❌ to discard, or type a correction.
+`🍽️ Nasi lemak x1 — RM8.00 · Cash · 21/04/2026`
+`☕ Kopi x1 — RM3.00 · Touch n' Go · 21/04/2026`
+
+`Reply ✅ to save all, ❌ to discard, or type a correction.`
 
 ## License
 MIT
