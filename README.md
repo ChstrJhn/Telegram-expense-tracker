@@ -27,6 +27,12 @@ An AI-powered Telegram bot that logs your daily expenses to Google Sheets using 
 
 ![Workdlow Overview](assets/tg-expense-tracker-workflow.png)
 
+## Input Example
+
+### Image input - receipt
+
+![Image Input](assets/tg-expense-tracket-image-input.png)
+
 ## Setup
 
 ### Prerequisites
@@ -78,18 +84,7 @@ Pick one of:
 | Credential IDs | `TELEGRAM_CREDENTIALS_ID`, `GEMINI_CREDENTIALS_ID`, `GOOGLE_SHEETS_CREDENTIALS_ID` |
 | Webhook IDs | `TELEGRAM_INPUT_WEBHOOK_ID`, `SEND_CONFIRMATION_WEBHOOK_ID`, `WAIT_FOR_REPLY_WEBHOOK_ID`, `SUCCESS_REPLY_WEBHOOK_ID`, `DISCARD_REPLY_WEBHOOK_ID` (reused by Correction Reply), `NOT_EXPENSE_WEBHOOK_ID`, `PARSE_ERROR_WEBHOOK_ID` |
 
-## Example
 
-**Input (text):** `"Nasi lemak RM8 cash, kopi RM3 TnG"`
-
-**Bot reply:**
-
-`📋 Here's what I captured:`
-
-`🍽️ Nasi lemak x1 — RM8.00 · Cash · 21/04/2026`
-`☕ Kopi x1 — RM3.00 · Touch n' Go · 21/04/2026`
-
-`Reply ✅ to save all, ❌ to discard, or type a correction.`
 
 ## License
 MIT
