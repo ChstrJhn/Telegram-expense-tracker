@@ -25,11 +25,59 @@ An AI-powered Telegram bot that logs your daily expenses to Google Sheets using 
 
 ## Workflow Overview
 
-![Workflow Overview](screenshots/workflow-overview.png)
-
-## Google Sheets Output
-
-![Sheets Output](screenshots/google-sheets-output.png)
+Telegram Input
+    │
+    ▼
+Check Pending ──────────────────────────────────────────────────────┐
+    │                                                               │
+    ▼                                                               │
+New or Reply                                                        │
+    │                                                               │
+    ├── [Confirmation Reply] ──► Resume Waiting ──► Clear Pending  │
+    │                                  │ (wakes up paused execution)│
+    │                                  └──────────────────────────►┘
+    │
+    └── [New expense] ──► Switch - Route Expense Input Type
+                              │
+                   ┌──────────┼──────────┐
+                   ▼          ▼          ▼
+                 voice      photo       text
+                   │          │          │
+              (Get URL)   (Get URL)  Analyse text
+              (Download)  (Download)     │
+              (Upload)    (Upload)   Package Text
+              Analyze     Analyze an     │
+              audio       image          │
+                   │          │          │
+              Package     Package        │
+              text1       text           │
+                   └──────────┴──────────┘
+                              │
+                              ▼
+                          Parse JSON
+                              │
+                   Switch - Handle Non-Expenses & Errors
+                   │               │               │
+              Not Expense    Parse Error      [valid expense]
+                   │               │               │
+            Not Expense    Parse Error      Send Confirmation
+            Message        Message               │
+                                          Save Resume URL
+                                               │
+                                          Wait For Reply
+                                               │
+                                          Check Reply
+                                   ┌──────────┼──────────┐
+                                   ▼          ▼          ▼
+                               Confirmed  Cancelled  [correction]
+                                   │          │          │
+                              Parse JSON1 Discard   Correction
+                                   │      Reply      Reply
+                              Save To
+                              Sheets
+                                   │
+                              Success
+                               Reply
 
 ## Setup
 
