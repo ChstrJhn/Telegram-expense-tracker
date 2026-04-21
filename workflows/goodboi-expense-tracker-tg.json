@@ -1,0 +1,1520 @@
+{
+  "name": "Gooodboi Bot",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "=https://api.telegram.org/bot8706542670:AAF-p9LLmddcsrB-eMUHTZOH6JbZGQUtAEY/getFile",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "file_id",
+              "value": "={{ $('Telegram Input').item.json.message.voice.file_id.trim() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        400,
+        -336
+      ],
+      "id": "f3cde7d9-e827-42ea-893a-cd2b01a55bcb",
+      "name": "Get Voice URL"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.telegram.org/file/bot8706542670:AAF-p9LLmddcsrB-eMUHTZOH6JbZGQUtAEY/{{ $('Get Voice URL').item.json.result.file_path }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        608,
+        -336
+      ],
+      "id": "fc36a2a0-2e52-464c-9ee3-dcf05f4fc7eb",
+      "name": "Download Voice File"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {
+          "chatIds": ""
+        }
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -704,
+        0
+      ],
+      "id": "58362a57-cafe-438a-b2c1-b0e20a82564f",
+      "name": "Telegram Input",
+      "webhookId": "86a37960-b954-44c1-9b76-34ac9184c571",
+      "credentials": {
+        "telegramApi": {
+          "id": "XulF1GYrxC8mbBa6",
+          "name": "Gooodboi Telegram"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/upload/v1beta/files?uploadType=media",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-goog-api-key",
+              "value": "AIzaSyAPBJKH0G31W5OaefgIJfJNnxbP8_3EmzY"
+            },
+            {
+              "name": "X-Goog-Upload-Protocol",
+              "value": "raw"
+            },
+            {
+              "name": "Content-Type",
+              "value": "audio/ogg"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        800,
+        -336
+      ],
+      "id": "9081d8b2-5891-4983-ae92-18d01374862f",
+      "name": "Upload File To Gemini"
+    },
+    {
+      "parameters": {
+        "url": "https://api.telegram.org/bot8706542670:AAF-p9LLmddcsrB-eMUHTZOH6JbZGQUtAEY/getFile",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "file_id",
+              "value": "={{ $('Telegram Input').item.json.message.photo[$('Telegram Input').item.json.message.photo.length - 1].file_id.trim() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        432,
+        0
+      ],
+      "id": "6e8a3000-64c1-454b-abf7-51700e2cfae3",
+      "name": "Get Photo URL"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.telegram.org/file/bot8706542670:AAF-p9LLmddcsrB-eMUHTZOH6JbZGQUtAEY/{{ $('Get Photo URL').item.json.result.file_path }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        608,
+        0
+      ],
+      "id": "23565349-ba2e-4ce9-8511-f00764232299",
+      "name": "Download Photo File"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/upload/v1beta/files?uploadType=media",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-goog-api-key",
+              "value": "AIzaSyAPBJKH0G31W5OaefgIJfJNnxbP8_3EmzY"
+            },
+            {
+              "name": "X-Goog-Upload-Protocol",
+              "value": "raw"
+            },
+            {
+              "name": "Content-Type",
+              "value": "image/jpeg"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        800,
+        0
+      ],
+      "id": "5c8d7e29-8117-4cb0-b071-6c2cfa3130d2",
+      "name": "Upload File To Gemini1"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3-flash-preview",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3-flash-preview"
+        },
+        "text": "=For context, today's date (DD-MM-YYYY) is: {{ $json.file.createTime.split('T')[0] }}\n\nThis is a receipt or expense-related image. Extract the following information as plain text for each distinct expense item: item name, total quantity, total amount paid (in RM if visible), payment method (if available), and date (if available, else default to current date). Be concise and specific.\n\nExtraction Rules:\n\ncategory: The broad category of the item. Must be exactly one of - Groceries, Dining out, Coffee & snacks, Fuel, Public transport, Ride-sharing & taxis, Parking & tolls, Home supplies, Home maintenance, Personal grooming, Personal health, Hobbies, Events & outings, Shopping, Pet food & treats, Pet care, Gifts, Other\n\nitem_name: Specific name of the product or service.\n\nquantity: The total count (integer or decimal).\n\namount_rm: Total amount paid in RM (number only).\n\npayment_method: Must be exactly one of - Touch n' Go, Cash, Credit/Debit Card, DuitNow, Bank Transfer, Grab, Shopee, Lazada, Unknown\n\ndate: ISO 8601 format (DD-MM-YYYY) if available, default to today's date if unspecified.\n\nOutput Format:\nReturn only a valid JSON object with an expenses key containing an array of objects. Do not include any introductory text or markdown explanations.\n\nIMPORTANT: If the message is NOT an expense (e.g. non-sensical words, greeting, or question like \"How are you today?\"), return: {\\\"error\\\": \\\"not_an_expense\\\"}",
+        "imageUrls": "={{ $json.file.uri }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        992,
+        0
+      ],
+      "id": "807f82b1-f7d4-41ce-8c24-d06ad339e008",
+      "name": "Analyze an image",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "uui1qJY9WwgvxUf2",
+          "name": "Gooodboi Gemini"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3-flash-preview",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3-flash-preview"
+        },
+        "text": "=For context, today's date (DD-MM-YYYY) is: {{ $json.file.createTime.split('T')[0] }}\n\nThis is a expense-related audio for record keeping purposes. Extract the following information as plain text for each distinct expense item: item name, total quantity, total amount paid (in RM if available), payment method (if available), and date (default to current date if not provided). Be concise and specific.\n\nExtraction Rules:\n\ncategory: The broad category of the item. Must be exactly one of - Groceries, Dining out, Coffee & snacks, Fuel, Public transport, Ride-sharing & taxis, Parking & tolls, Home supplies, Home maintenance, Personal grooming, Personal health, Hobbies, Events & outings, Shopping, Pet food & treats, Pet care, Gifts, Other\n\nitem_name: Specific name of the product or service (e.g. Ice latte).\n\nquantity: The total count (integer or decimal e.g. 2).\n\namount_rm: Total amount paid in RM (number only e.g. 18).\n\npayment_method: Must be exactly one of - Touch n' Go, Cash, Credit/Debit Card, DuitNow, Bank Transfer, Grab, Shopee, Lazada, Unknown\n\ndate: ISO 8601 format (DD-MM-YYYY) if available, default to today's date if unspecified.\n\nOutput Format:\nReturn only a valid JSON object with an expenses key containing an array of objects. Do not include any introductory text or markdown explanations.\n\nIMPORTANT: If the message is NOT an expense (e.g. non-sensical words, greeting, or question like \"How are you today?\"), return: {\\\"error\\\": \\\"not_an_expense\\\"}",
+        "audioUrls": "={{ $json.file.uri }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        992,
+        -336
+      ],
+      "id": "1718d5c1-d5ca-470b-9c02-387b712d4436",
+      "name": "Analyze audio",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "uui1qJY9WwgvxUf2",
+          "name": "Gooodboi Gemini"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6a577780-bf8f-4f82-a06a-2be0305e228c",
+              "name": "raw_text",
+              "value": "={{ $json.content.parts[0].text }}",
+              "type": "string"
+            },
+            {
+              "id": "d6bb53a5-7dfc-47b7-99f0-be7f47905e1b",
+              "name": "chat_id",
+              "value": "={{ $('Telegram Input').item.json.message.chat.id }}",
+              "type": "string"
+            },
+            {
+              "id": "1bb5f2f8-db32-48f7-b356-5b58a5a3936b",
+              "name": "raw_input_original",
+              "value": "={{ $('Telegram Input').item.json.message.text }}",
+              "type": "string"
+            },
+            {
+              "id": "b2ca114f-bb74-46a7-8022-1f9c0023c32e",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        864,
+        320
+      ],
+      "id": "0cce890c-62c0-4748-9874-61a8073949fd",
+      "name": "Package Text"
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputData = $input.first().json.raw_text;\nconst chat_id = $input.first().json.chat_id;\nconst raw_input_original = $input.first().json.raw_input_original;\n\n// Extract Gemini's text response from the nested response object\n\n// Remove markdown code blocks if Gemini added them (safety net)\nconst cleaned = inputData.replace(/```json\\n?/g, '').replace(/```\\n?/g, '').trim();\n\nlet parsed;\ntry {\n  parsed = JSON.parse(cleaned);\n} catch (e) {\n  return [{ json: { parse_error: true, chat_id, raw_input_original } }];\n}\n\nif (parsed.error === 'not_an_expense') {\n  return [{ json: { not_expense: true, chat_id } }];\n}\n\n// Normalise into array — handles both single object and expenses array\nlet expenses = parsed.expenses && Array.isArray(parsed.expenses)\n  ? parsed.expenses\n  : [parsed];\n\n// Normalise each expense's field names\nexpenses = expenses.map(exp => ({\n  category: exp.category || 'Other',\n  item_name: exp.item || exp.item_name || exp.name || 'Unknown',\n  quantity: exp.quantity || 1,\n  amount_rm: exp.price || exp.amount_rm || exp.amount || null,\n  payment_method: exp.payment_method || 'Unknown',\n  date: exp.date || 'Unknown'\n}));\n\nconst emoji = {\n  'Groceries': '🛒', 'Dining out': '🍽️', 'Coffee & snacks': '☕',\n  'Fuel': '⛽', 'Public transport': '🚌', 'Ride-sharing & taxis': '🚗',\n  'Parking & tolls': '🅿️', 'Home supplies': '🏠', 'Home maintenance': '🔧',\n  'Personal grooming': '💈', 'Personal health': '💊', 'Hobbies': '🎮',\n  'Events & outings': '🎉', 'Shopping': '🛍️', 'Pet food & treats': '🐾',\n  'Pet care': '🐶', 'Gifts': '🎁', 'Other': '📌'\n};\n\n// Escape special characters for Telegram MarkdownV2\n// Required characters: . ! - ( ) [ ] { } > # + = | ~ must all be escaped\nconst esc = (text) => String(text).replace(/[_*[\\]()~`>#+\\-=|{}.!]/g, '\\\\$&');\n\n// Build confirmation message — lists all expenses if there are multiple\nconst lines = expenses.map((exp, i) => {\n  const e = emoji[exp.category] || '📌';\n  return `*${i + 1}\\\\.* ${e} ${esc(exp.item_name)} x${esc(exp.quantity)} — RM${esc(Number(exp.amount_rm).toFixed(2))} · ${esc(exp.payment_method)} · ${esc(exp.date)}`;\n}).join('\\n');\n\nconst confirmMessage = `📋 *Here's what I captured:*\\n\\n${lines}\\n\\nReply ✅ to save all, ❌ to discard, or type a correction\\\\.`;\n\n// Return ONE item containing the full expenses array\n// The Split Out node downstream will split this into individual rows for Google Sheets\nreturn [{\n  json: {\n    parsed_expenses: expenses,\n    confirm_message: confirmMessage,\n    chat_id,\n    raw_input_original\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1520,
+        16
+      ],
+      "id": "93935a5c-54c6-42eb-8537-ddbf993f7fea",
+      "name": "Parse JSON"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chat_id }}",
+        "text": "={{ $json.confirm_message }}",
+        "additionalFields": {
+          "parse_mode": "MarkdownV2"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1920,
+        304
+      ],
+      "id": "bf0bc375-c4c2-43ae-a752-869681e07392",
+      "name": "Send Confirmation",
+      "webhookId": "22ab6dbe-baaa-4976-aa88-cceb299e1950",
+      "credentials": {
+        "telegramApi": {
+          "id": "XulF1GYrxC8mbBa6",
+          "name": "Gooodboi Telegram"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1ngQo0yNws-kW7d8-OQz2mqNxqtAU-ozabdMdK9Sk-zw",
+          "mode": "list",
+          "cachedResultName": "Expenses",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ngQo0yNws-kW7d8-OQz2mqNxqtAU-ozabdMdK9Sk-zw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 845249981,
+          "mode": "list",
+          "cachedResultName": "Pending",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ngQo0yNws-kW7d8-OQz2mqNxqtAU-ozabdMdK9Sk-zw/edit#gid=845249981"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "chat_id": "={{ $('Parse JSON').item.json.chat_id }}",
+            "resume_url": "={{ $execution.resumeUrl }}",
+            "timestamp": "={{ new Date().toISOString() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "chat_id",
+              "displayName": "chat_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "resume_url",
+              "displayName": "resume_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2128,
+        304
+      ],
+      "id": "118dcbcf-28b1-4042-b00f-968ce1e54f90",
+      "name": "Save Resume URL",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "VMkPKxnr4sN7222Q",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resume": "webhook",
+        "httpMethod": "POST",
+        "limitWaitTime": true,
+        "resumeAmount": 5,
+        "resumeUnit": "minutes",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2336,
+        304
+      ],
+      "id": "41666103-3598-4b36-a11c-d0d050f32aeb",
+      "name": "Wait For Reply",
+      "webhookId": "40a2ef32-bcbe-48f4-a17b-6d7b5fca5492"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ ['yes','ok','✅','save','yep','yeah','y'].includes(($json.body?.message?.text ?? '').toLowerCase().trim()) }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "d433f4dc-e53e-4a54-a8a3-f8979896451d"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Confirmed"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "9a83f888-ac36-423c-9126-45d760b47c12",
+                    "leftValue": "={{ ['no','cancel','❌','nope','discard','n'].includes(($json.body?.message?.text ?? '').toLowerCase().trim()) }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Cancelled"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2544,
+        304
+      ],
+      "id": "ff7cbb98-fb80-4296-bc47-44922f38925e",
+      "name": "Check Reply"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1ngQo0yNws-kW7d8-OQz2mqNxqtAU-ozabdMdK9Sk-zw",
+          "mode": "list",
+          "cachedResultName": "Expenses",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ngQo0yNws-kW7d8-OQz2mqNxqtAU-ozabdMdK9Sk-zw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Expenses",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ngQo0yNws-kW7d8-OQz2mqNxqtAU-ozabdMdK9Sk-zw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $json.date }}",
+            "Category": "={{ $json.category }}",
+            "Item": "={{ $json.item }}",
+            "Quantity": "={{ $json.quantity }}",
+            "Total Price": "={{ $json.price }}",
+            "Payment Method": "={{ $json.payment_method }}",
+            "Raw Input": "={{ $json.raw_input_original }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Item",
+              "displayName": "Item",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quantity",
+              "displayName": "Quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Price",
+              "displayName": "Total Price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Payment Method",
+              "displayName": "Payment Method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Raw Input",
+              "displayName": "Raw Input",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2928,
+        80
+      ],
+      "id": "bede4ff6-a770-4836-9ad4-0aa3f3526fcc",
+      "name": "Save To Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "VMkPKxnr4sN7222Q",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Parse JSON').item.json.chat_id }}",
+        "text": "✅ Saved! Your expense has been recorded in your sheet. 🎉",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3120,
+        80
+      ],
+      "id": "a74be97a-f97b-4655-98f5-6a0928496edc",
+      "name": "Success Reply",
+      "webhookId": "3af46464-a7f9-4fb9-b11e-a325495df397",
+      "credentials": {
+        "telegramApi": {
+          "id": "XulF1GYrxC8mbBa6",
+          "name": "Gooodboi Telegram"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Parse JSON').item.json.chat_id }}",
+        "text": "❌ Discarded. No problem — just send your expense again whenever you're ready.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2768,
+        320
+      ],
+      "id": "f908cba3-0802-40b3-9fd6-7d6abe36443f",
+      "name": "Discard Reply",
+      "webhookId": "64426154-d99f-4ca1-b982-9d03739d50a2",
+      "credentials": {
+        "telegramApi": {
+          "id": "XulF1GYrxC8mbBa6",
+          "name": "Gooodboi Telegram"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chat_id }}",
+        "text": "🤔 That doesn't look like an expense. Try something like: \"Bought coffee RM8 with TnG\"",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2032,
+        -368
+      ],
+      "id": "0e2a1e51-bf74-4ada-b581-7c27a9cc4f21",
+      "name": "Not Expense Message",
+      "webhookId": "9255e1f4-b598-482f-91d1-94889d3f4b42",
+      "credentials": {
+        "telegramApi": {
+          "id": "XulF1GYrxC8mbBa6",
+          "name": "Gooodboi Telegram"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Parse JSON').item.json.chat_id }}",
+        "text": "=⚠️ I had trouble parsing that. Could you rephrase it? (e.g. \"lunch at mamak RM12 cash\")",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2032,
+        -144
+      ],
+      "id": "1728cf56-cad9-4e03-9f6a-feb5e5326590",
+      "name": "Parse Error Message",
+      "webhookId": "864cefa5-b80f-4295-8883-f416a1f40590",
+      "credentials": {
+        "telegramApi": {
+          "id": "XulF1GYrxC8mbBa6",
+          "name": "Gooodboi Telegram"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.not_expense }}",
+                    "rightValue": false,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "a77cfebb-7cbb-4351-981c-3280e7349a6d"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Not Expense"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "e39f9a50-3b8e-49ee-9975-2dd6dc82004c",
+                    "leftValue": "={{ $json.parse_error }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Parse Error"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1712,
+        0
+      ],
+      "id": "708d9e7e-b049-41eb-84ed-e7a70cb9d8d1",
+      "name": "Switch - Handle Non-Expenses & Errors"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Telegram Input').item.json.message.voice ? 'voice' : $('Telegram Input').item.json.message.photo ? 'photo' : 'text' }}",
+                    "rightValue": "voice",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "79cf867e-0618-43de-80b5-c8518eaba7e9"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "voice"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "8f06946d-8420-4f92-8344-212f218c46f3",
+                    "leftValue": "={{ $('Telegram Input').item.json.message.voice ? 'voice' : $('Telegram Input').item.json.message.photo ? 'photo' : 'text' }}",
+                    "rightValue": "photo",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "photo"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ee450232-851b-4be4-8ef8-c79c3fce3605",
+                    "leftValue": "={{ $('Telegram Input').item.json.message.voice ? 'voice' : $('Telegram Input').item.json.message.photo ? 'photo' : 'text' }}",
+                    "rightValue": "text",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "91b1a99b-48d9-48cf-b1ae-19ac0e1bf184",
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        -16
+      ],
+      "id": "ac5bce83-23b0-4925-bf95-bd5f29ba0858",
+      "name": "Switch - Route Expense Input Type"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3-flash-preview",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3-flash-preview"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=={{ $json.raw_text ?? $('Telegram Input').item.json.message.text }}"
+            }
+          ]
+        },
+        "jsonOutput": "={{ false }}",
+        "builtInTools": {},
+        "options": {
+          "systemMessage": "=For context, today's date (DD-MM-YYYY) is: {{ new Date().toLocaleDateString('en-GB') }}\n\nYou are an expense tracker assistant for a Malaysian user. You handle two types of input:\n\nTYPE 1 — Plain text (new expense):\nExtract structured data for each expense item.\n\nTYPE 2 — JSON object with \"previous_expenses\" and \"correction\" keys:\nThe user wants to amend previously parsed expenses. Apply ONLY the correction the user specified to the previous_expenses. Keep everything else unchanged. Return the full corrected expenses array.\n\n---\n\nExtraction Rules (apply to both types):\n\ncategory: Must be exactly one of:\nGroceries, Dining out, Coffee & snacks, Fuel, Public transport, Ride-sharing & taxis, Parking & tolls, Home supplies, Home maintenance, Personal grooming, Personal health, Hobbies, Events & outings, Shopping, Pet food & treats, Pet care, Gifts, Other\n\nitem_name: Specific name of the product or service (e.g. \"Ice latte\").\n\nquantity: Total count as integer or decimal. Default to 1 if not mentioned.\n\namount_rm: Total amount paid in RM, number only (e.g. 18.00). Use null if unclear.\n\npayment_method: Must be exactly one of:\nTouch n' Go, Cash, Credit/Debit Card, DuitNow, Bank Transfer, Grab, Shopee, Lazada, Unknown\n\ndate: DD-MM-YYYY format. Default to today's date if not mentioned.\n\n---\n\nOutput Format:\nReturn ONLY a valid JSON object with an \"expenses\" key containing an array of objects. No markdown, no explanation, no extra text.\n\nExample:\n{\"expenses\": [{\"category\": \"Dining out\", \"item_name\": \"Nasi lemak\", \"quantity\": 1, \"amount_rm\": 8.00, \"payment_method\": \"Cash\", \"date\": \"21-04-2026\"}]}\n\nIMPORTANT: If the input is not an expense and not a correction (e.g. a greeting or question), return:\n{\"error\": \"not_an_expense\"}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        416,
+        320
+      ],
+      "id": "4f1d650b-843d-4885-851f-72bdac894ec1",
+      "name": "Analyse text",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "uui1qJY9WwgvxUf2",
+          "name": "Gooodboi Gemini"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6a577780-bf8f-4f82-a06a-2be0305e228c",
+              "name": "raw_text",
+              "value": "={{ $json.content.parts[0].text }}",
+              "type": "string"
+            },
+            {
+              "id": "d6bb53a5-7dfc-47b7-99f0-be7f47905e1b",
+              "name": "chat_id",
+              "value": "={{ $('Telegram Input').item.json.message.chat.id }}",
+              "type": "string"
+            },
+            {
+              "id": "1bb5f2f8-db32-48f7-b356-5b58a5a3936b",
+              "name": "raw_input_original",
+              "value": "[photo/receipt]",
+              "type": "string"
+            },
+            {
+              "id": "b2ca114f-bb74-46a7-8022-1f9c0023c32e",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1184,
+        0
+      ],
+      "id": "4869d44a-b564-4a6e-b5fd-1878b22102d1",
+      "name": "Package text"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6a577780-bf8f-4f82-a06a-2be0305e228c",
+              "name": "raw_text",
+              "value": "={{ $json.content.parts[0].text }}",
+              "type": "string"
+            },
+            {
+              "id": "d6bb53a5-7dfc-47b7-99f0-be7f47905e1b",
+              "name": "chat_id",
+              "value": "={{ $('Telegram Input').item.json.message.chat.id }}",
+              "type": "string"
+            },
+            {
+              "id": "1bb5f2f8-db32-48f7-b356-5b58a5a3936b",
+              "name": "raw_input_original",
+              "value": "[voice message]",
+              "type": "string"
+            },
+            {
+              "id": "b2ca114f-bb74-46a7-8022-1f9c0023c32e",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1184,
+        -336
+      ],
+      "id": "28abcead-7676-40a1-ae08-dfb998d63fee",
+      "name": "Package text1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $('Parse JSON').item.json;\nconst chat_id = data.chat_id;\nconst raw_input_original = data.raw_input_original;\n\nlet expenses = data.parsed_expenses;\nif (typeof expenses === 'string') {\n  expenses = JSON.parse(expenses);\n}\n\n// Return one item per expense — Sheets node will append one row each\nreturn expenses.map(exp => ({\n  json: {\n    category: exp.category,\n    item: exp.item_name,\n    quantity: exp.quantity,\n    price: exp.amount_rm,\n    payment_method: exp.payment_method,\n    date: exp.date,\n    chat_id,\n    raw_input_original\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2752,
+        80
+      ],
+      "id": "7d5355f9-1eab-430f-84d8-1e0b048223a9",
+      "name": "Parse JSON1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1ngQo0yNws-kW7d8-OQz2mqNxqtAU-ozabdMdK9Sk-zw",
+          "mode": "list",
+          "cachedResultName": "Expenses",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ngQo0yNws-kW7d8-OQz2mqNxqtAU-ozabdMdK9Sk-zw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 845249981,
+          "mode": "list",
+          "cachedResultName": "Pending",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ngQo0yNws-kW7d8-OQz2mqNxqtAU-ozabdMdK9Sk-zw/edit#gid=845249981"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "chat_id",
+              "lookupValue": "={{ $json.message.chat.id }}"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -512,
+        0
+      ],
+      "id": "e8e35034-0476-4995-b0a7-0c4f44cf106e",
+      "name": "Check Pending",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "VMkPKxnr4sN7222Q",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ !!$json.resume_url }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "4f4427cd-187b-4627-8640-a3b2bd5e6b87"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Confirmation Reply"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -320,
+        0
+      ],
+      "id": "52da9a11-99a9-4fda-9053-313deaa149fb",
+      "name": "New or Reply"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.resume_url }}",
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({ message: { text: $('Telegram Input').item.json.message.text, chat: { id: $('Telegram Input').item.json.message.chat.id } } }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -176,
+        -176
+      ],
+      "id": "559da0ca-c656-4e94-9df7-7b9ba751a488",
+      "name": "Resume Waiting"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "1ngQo0yNws-kW7d8-OQz2mqNxqtAU-ozabdMdK9Sk-zw",
+          "mode": "list",
+          "cachedResultName": "Expenses",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ngQo0yNws-kW7d8-OQz2mqNxqtAU-ozabdMdK9Sk-zw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 845249981,
+          "mode": "list",
+          "cachedResultName": "Pending",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ngQo0yNws-kW7d8-OQz2mqNxqtAU-ozabdMdK9Sk-zw/edit#gid=845249981"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        16,
+        -176
+      ],
+      "id": "4aa51910-8d35-4f94-8082-27fcba0e983a",
+      "name": "Clear Pending",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "VMkPKxnr4sN7222Q",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Parse JSON').item.json.chat_id }}",
+        "text": "Got it! Please send your expense again with the correction applied — e.g. \"Nasi lemak RM8 Grab\". Alternatively, send a clearer / upright image or voice note.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2768,
+        544
+      ],
+      "id": "7c2c0d8a-ad90-4ff0-8e9e-c72033ac7956",
+      "name": "Correction Reply",
+      "webhookId": "64426154-d99f-4ca1-b982-9d03739d50a2",
+      "credentials": {
+        "telegramApi": {
+          "id": "XulF1GYrxC8mbBa6",
+          "name": "Gooodboi Telegram"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Get Voice URL": {
+      "main": [
+        [
+          {
+            "node": "Download Voice File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Voice File": {
+      "main": [
+        [
+          {
+            "node": "Upload File To Gemini",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Input": {
+      "main": [
+        [
+          {
+            "node": "Check Pending",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload File To Gemini": {
+      "main": [
+        [
+          {
+            "node": "Analyze audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Photo URL": {
+      "main": [
+        [
+          {
+            "node": "Download Photo File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Photo File": {
+      "main": [
+        [
+          {
+            "node": "Upload File To Gemini1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload File To Gemini1": {
+      "main": [
+        [
+          {
+            "node": "Analyze an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze audio": {
+      "main": [
+        [
+          {
+            "node": "Package text1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze an image": {
+      "main": [
+        [
+          {
+            "node": "Package text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Package Text": {
+      "main": [
+        [
+          {
+            "node": "Parse JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse JSON": {
+      "main": [
+        [
+          {
+            "node": "Switch - Handle Non-Expenses & Errors",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Confirmation": {
+      "main": [
+        [
+          {
+            "node": "Save Resume URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Resume URL": {
+      "main": [
+        [
+          {
+            "node": "Wait For Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait For Reply": {
+      "main": [
+        [
+          {
+            "node": "Check Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Reply": {
+      "main": [
+        [
+          {
+            "node": "Parse JSON1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Discard Reply",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Correction Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save To Sheets": {
+      "main": [
+        [
+          {
+            "node": "Success Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch - Handle Non-Expenses & Errors": {
+      "main": [
+        [
+          {
+            "node": "Not Expense Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Parse Error Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch - Route Expense Input Type": {
+      "main": [
+        [
+          {
+            "node": "Get Voice URL",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Photo URL",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Analyse text",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Analyse text": {
+      "main": [
+        [
+          {
+            "node": "Package Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Package text": {
+      "main": [
+        [
+          {
+            "node": "Parse JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Package text1": {
+      "main": [
+        [
+          {
+            "node": "Parse JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse JSON1": {
+      "main": [
+        [
+          {
+            "node": "Save To Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Pending": {
+      "main": [
+        [
+          {
+            "node": "New or Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New or Reply": {
+      "main": [
+        [
+          {
+            "node": "Resume Waiting",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch - Route Expense Input Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resume Waiting": {
+      "main": [
+        [
+          {
+            "node": "Clear Pending",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discard Reply": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "d4533704-da51-4f0a-b522-387cbf68cf29",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1b366013477f7a81138dddd31ef9b7b847dcd16401f991f5d1d8a9b42d033b77"
+  },
+  "id": "t8dT9mWkDpG7JHFN",
+  "tags": []
+}
