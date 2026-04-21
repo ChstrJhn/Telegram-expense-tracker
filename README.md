@@ -36,7 +36,7 @@ An AI-powered Telegram bot that logs your daily expenses to Google Sheets using 
 - Google Sheets OAuth2 credentials
 
 ### Installation
-1. From the workflows folder, import `workflows/workflow-expense-tracker.json` into your n8n instance
+1. From the workflows folder, import `goodboi-expense-tracker-tg.json` into your n8n instance
 2. Add your credentials (Telegram Bot, Google Gemini API key, Google Sheets OAuth2)
 3. Create a Google Sheet with columns: Date, Category, Item, Quantity, Total Price, Payment Method, Raw Input — plus a `Pending` tab with columns: chat_id, resume_url, timestamp
 4. Activate the workflow
