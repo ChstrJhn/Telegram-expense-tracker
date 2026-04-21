@@ -31,7 +31,7 @@ An AI-powered Telegram bot that logs your daily expenses to Google Sheets using 
 
 ### Image input - receipt
 
-![Image Input](assets/tg-expense-tracket-image-input.png)
+<img src="assets/tg-expense-tracket-image-input.png" alt="Image Input" width="300" />
 
 ## Setup
 
